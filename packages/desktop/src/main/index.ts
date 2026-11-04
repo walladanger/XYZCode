@@ -2173,7 +2173,11 @@ app.whenReady().then(async () => {
     if (bootstrapSettings.dataBaseDir) {
       setDataBaseDir(bootstrapSettings.dataBaseDir);
     }
-    if (bootstrapSettings.locale) {
+    // 首次启动 setting.json 尚未落盘时，schema 会给 locale 默认值 "zh-CN"、localePreference 默认
+    // "system"。若这里无条件信任 locale，英文系统用户也会被固定成中文，永远走不到下面的
+    // resolveSystemApplicationLocale()。只有用户显式选了具体语言（preference 不是 "system"）才
+    // 采用落盘的 locale，否则按系统语言解析。
+    if (bootstrapSettings.locale && bootstrapSettings.localePreference !== "system") {
       loadedBootstrapLocale = true;
       currentApplicationLocale = bootstrapSettings.locale;
     }
