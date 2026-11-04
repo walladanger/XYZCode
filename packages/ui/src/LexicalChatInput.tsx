@@ -1603,6 +1603,7 @@ export function LexicalChatInput({
       })} text-foreground outline-none`}
       data-testid={inputTestId}
       onFocus={onFocus}
+      spellCheck
       {...contentEditableProps}
     />
   );

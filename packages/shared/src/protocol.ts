@@ -109,7 +109,7 @@ export interface IntegratedTerminalShellOption {
 }
 
 /** 默认语言 */
-export const DEFAULT_LOCALE: Locale = "zh-CN";
+export const DEFAULT_LOCALE: Locale = "en-US";
 
 // ── Workspace / Tab ──
 
