@@ -1,7 +1,6 @@
 import { join } from "node:path";
 import {
   TID_SETTINGS_BACK_BUTTON,
-  TID_SETTINGS_LOCALE_SELECT_TRIGGER,
   TID_SETTINGS_NATIVE_SEARCH_SWITCH,
   TID_SETTINGS_PAGE,
   TID_SETTINGS_SECTION_NAV,
@@ -15,15 +14,15 @@ import { prepareV4ConversationE2E } from "#e2e/helpers/v4-conversation";
 const agentNav = testId(TID_SETTINGS_SECTION_NAV, "agentBehavior");
 const page = () => $(`[data-testid="${TID_SETTINGS_PAGE}"]`);
 const labels = [
-  "工具搜索",
-  "增强 Find 和 Grep",
-  "交互行为",
-  "提问自动继续",
-  "插件自动推荐",
-  "动态工作流",
-  "完整保留模型 I/O",
-  "显示思考过程",
-  "显示待办",
+  "Tool search",
+  "Enhanced Find and Grep",
+  "Interaction behavior",
+  "Automatically continue questions",
+  "Automatic plugin recommendations",
+  "Dynamic workflows",
+  "Keep complete model I/O",
+  "Show reasoning",
+  "Show todos",
 ];
 
 describe("Agent 行为与工具设置", () => {
@@ -36,9 +35,9 @@ describe("Agent 行为与工具设置", () => {
         }
       ).__testActions;
       if (!actions) throw new Error("Missing UI test actions");
-      actions.setLocale("zh-CN");
+      actions.setLocale("en-US");
     });
-    await browser.waitUntil(() => browser.execute(() => document.documentElement.lang === "zh-CN"));
+    await browser.waitUntil(() => browser.execute(() => document.documentElement.lang === "en-US"));
     await clickTestIdByDom(TID_TASK_SETTINGS_BUTTON);
     await page().waitForDisplayed();
   });
@@ -50,9 +49,8 @@ describe("Agent 行为与工具设置", () => {
 
   it("SAB01：常规移除重复标签和 Agent 配置，新分类归属 Agent 能力", async () => {
     await clickTestIdByDom(testId(TID_SETTINGS_SECTION_NAV, "general"));
-    await $(`[data-testid="${TID_SETTINGS_LOCALE_SELECT_TRIGGER}"]`).waitForDisplayed();
     const heading = await page().$("h2");
-    expect(await heading.$("../..").getText()).toBe("常规");
+    expect(await heading.$("../..").getText()).toBe("General");
     for (const label of labels) expect(await page().getText()).not.toContain(label);
     const navigation = await $(`[data-testid="${agentNav}"]`);
     expect(
@@ -60,11 +58,8 @@ describe("Agent 行为与工具设置", () => {
     ).toBe("settings-sidebar-group-agentCapabilities");
     await navigation.click();
     await $(`[data-testid="${TID_SETTINGS_TOOL_SEARCH_SELECT}"]`).waitForExist();
-    await browser.waitUntil(async () => (await page().getText()).includes("动态工作流"));
+    await browser.waitUntil(async () => (await page().getText()).includes("Dynamic workflows"));
     for (const label of labels) expect(await page().getText()).toContain(label);
-    expect(await $(`[data-testid="${TID_SETTINGS_LOCALE_SELECT_TRIGGER}"]`).isExisting()).toBe(
-      false,
-    );
   });
 
   it("SAB02：新分类保存设置，重开和刷新恢复分类及值", async () => {
@@ -117,7 +112,7 @@ describe("Agent 行为与工具设置", () => {
           classes,
         );
         for (const theme of ["zai-light", "zai-dark"]) {
-          for (const locale of ["zh-CN", "en-US"]) {
+          for (const locale of ["en-US"]) {
             await browser.execute(
               (theme, locale) => {
                 const actions = (

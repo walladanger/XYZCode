@@ -102,9 +102,9 @@ export function shouldApplyLocaleBroadcastMessage(
   return true;
 }
 
-function createIntl(locale: Locale): IntlInstance {
-  // noUncheckedIndexedAccess：用 ?? 回退到默认语言的翻译
-  const messages = MESSAGES[locale] ?? MESSAGES[DEFAULT_LOCALE]!;
+function createIntl(_locale: Locale): IntlInstance {
+  // English-only：界面只剩英文文案表。
+  const messages = MESSAGES["en-US"];
   return {
     formatMessage({ id }, values) {
       let msg = messages[id] ?? id;

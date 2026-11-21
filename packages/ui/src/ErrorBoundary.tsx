@@ -1,7 +1,5 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
-import type { Locale } from "@zcode/shared";
-import { DEFAULT_LOCALE, isLocale, resolveLocaleFromLanguageTag } from "@zcode/shared";
 import { DesktopWindowFrame } from "@/DesktopWindowFrame.js";
 import { LOCALE_MESSAGES } from "@/i18n/localeMessages.js";
 import { logger } from "@/logger.js";
@@ -39,8 +37,6 @@ interface ScopedErrorBoundaryProps {
   onCaughtReactError?: (error: Error, errorInfo: ErrorInfo, scope: string) => void;
 }
 
-const LOCALE_PREFERENCE_KEY = "zcode-locale-preference";
-
 function normalizeError(error: unknown): Error {
   if (error instanceof Error) {
     return error;
@@ -61,30 +57,9 @@ function serializeErrorForLog(error: Error): {
   };
 }
 
-function resolveBoundaryLocale(): Locale {
-  if (typeof localStorage !== "undefined" && typeof localStorage.getItem === "function") {
-    try {
-      const storedPreference = localStorage.getItem(LOCALE_PREFERENCE_KEY);
-      if (isLocale(storedPreference)) {
-        return storedPreference;
-      }
-    } catch {
-      // 在 Node 测试环境里，可能出现“localStorage 对象存在但能力不完整/不可读”的场景
-      // （例如只有占位对象或读取阶段直接抛错）。错误边界若不兜底会在 fallback 渲染期再次崩溃，
-      // 用户就会看到白屏。这里吞掉存储层异常，继续回退到 navigator / 默认语言。
-    }
-  }
-
-  if (typeof navigator !== "undefined") {
-    return resolveLocaleFromLanguageTag(navigator.language);
-  }
-
-  return DEFAULT_LOCALE;
-}
-
 function formatBoundaryMessage(id: string): string {
-  const locale = resolveBoundaryLocale();
-  const messages = LOCALE_MESSAGES[locale];
+  // English-only：错误边界文案固定英文。
+  const messages = LOCALE_MESSAGES["en-US"];
   return messages[id] ?? id;
 }
 
