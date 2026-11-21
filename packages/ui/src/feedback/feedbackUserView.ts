@@ -22,15 +22,15 @@ const REPRO_DESCRIPTION_SECTIONS = new Set([
 const SYSTEM_COMMENT_PREFIX = "系统提示：";
 
 export const STATUS_USER_HINT: Record<FeedbackTicketStatus, string> = {
-  已提交: "我们已收到，会尽快处理。",
-  信息不足: "还需要你补充一点信息，请看下方官方回复。",
-  已采纳: "你的反馈已被采纳，我们会安排修复或改进。",
-  答复关闭: "产品经理已回复并关闭此反馈，如仍有问题可以重新提交。",
-  已归档: "产品经理已回复并关闭此反馈，如仍有问题可以重新提交。",
-  已拒绝: "这条反馈暂未纳入处理，如有疑问可看下方说明。",
-  开发中: "正在处理中，有进展会通过下方回复同步。",
-  已解决: "问题已经处理完成，正在等待版本上线。",
-  已上线: "相关修复或改进已上线，感谢你的反馈。",
+  已提交: "We received it and will handle it soon.",
+  信息不足: "We need a bit more information. Check the team reply below.",
+  已采纳: "Your feedback was accepted. We will schedule a fix or improvement.",
+  答复关闭: "The product team replied and closed this feedback. Submit a new one if the issue remains.",
+  已归档: "The product team replied and closed this feedback. Submit a new one if the issue remains.",
+  已拒绝: "This feedback is not planned for now. You can check the explanation below.",
+  开发中: "We are working on it. Updates will appear below.",
+  已解决: "The issue has been fixed and is waiting for release.",
+  已上线: "The related fix or improvement is live. Thanks for the feedback.",
 };
 
 export const STATUS_USER_HINT_MESSAGE_IDS: Record<FeedbackTicketStatus, string> = {

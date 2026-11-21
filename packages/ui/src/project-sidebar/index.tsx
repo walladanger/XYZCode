@@ -11,7 +11,6 @@ import { remoteHostIdFromWorkspaceIdentity } from "@/project-sidebar/contract.js
 import type {
   ProjectSidebarProps,
   VirtualProject,
-  Locale,
   Theme,
   RemoteProjectHost,
 } from "@/project-sidebar/contract.js";
@@ -97,7 +96,7 @@ export const ProjectSidebar = memo(function ProjectSidebar(props: ProjectSidebar
     },
     [navigateToTask],
   );
-  const { intl, localePreference, setLocalePreference } = useZCodeIntl();
+  const { intl } = useZCodeIntl();
   const tabStore = useTabStoreApi();
   const setTheme = useZCodeStore((state) => state.setTheme);
   const { openCodingPlanUpgrade } = useCodingPlanUpgradeDialog();
@@ -223,10 +222,6 @@ export const ProjectSidebar = memo(function ProjectSidebar(props: ProjectSidebar
   const openSettings = useCallback(() => {
     tabStore.getState().openSettingsTab();
   }, [tabStore]);
-  const changeLocale = useCallback(
-    (value: string) => setLocalePreference(value as Locale | "system"),
-    [setLocalePreference],
-  );
   const changeTheme = useCallback((value: string) => setTheme(value as Theme), [setTheme]);
   const upgrade = useCallback<
     NonNullable<Parameters<typeof WorkspaceSidebarFooter>[0]["onUpgradeClick"]>
@@ -352,8 +347,6 @@ export const ProjectSidebar = memo(function ProjectSidebar(props: ProjectSidebar
               <WorkspaceSidebarFooter
                 className="pr-3"
                 theme={props.theme}
-                localeMenuValue={localePreference}
-                onLocaleChange={changeLocale}
                 onThemeChange={changeTheme}
                 onSettingsButtonClick={openSettings}
                 onUsageClick={openSettings}

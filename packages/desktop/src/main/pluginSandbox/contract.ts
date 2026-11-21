@@ -77,7 +77,7 @@ export type IPluginSandboxPlatform = PluginSandboxPlatformPort;
 export class PluginSandboxQuotaError extends Error {
   readonly code = "sandbox_quota" as const;
   constructor(maxEntries: number) {
-    super(`插件界面数量已达上限（${maxEntries}），请先关闭其他插件卡片或面板。`);
+    super(`Plugin UI limit reached (${maxEntries}). Close other plugin cards or panels first.`);
     this.name = "PluginSandboxQuotaError";
   }
 }

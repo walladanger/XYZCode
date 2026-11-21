@@ -70,11 +70,11 @@ const ABOUT_MESSAGES: Record<
   }
 > = {
   "zh-CN": {
-    aboutTitle: "关于 ZCode",
-    versionLabel: "版本",
-    okButtonLabel: "确定",
-    optimizedForAppleSilicon: "已针对 Apple Silicon 优化。",
-    copyright: (year) => `版权所有 © ${year} ZCode。`,
+    aboutTitle: "About ZCode",
+    versionLabel: "version",
+    okButtonLabel: "OK",
+    optimizedForAppleSilicon: "Optimized for Apple Silicon.",
+    copyright: (year) => `Copyright © ${year} ZCode.`,
   },
   "en-US": {
     aboutTitle: "About ZCode",

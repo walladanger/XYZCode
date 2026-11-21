@@ -204,19 +204,8 @@ export function resolveForceUpdateDownloadUrl(
 
 export function formatForceUpdateDialogText(
   requirement: ForceUpdateRequirement,
-  locale: Locale,
+  _locale: Locale,
 ): ForceUpdateDialogText {
-  if (locale === "zh-CN") {
-    return {
-      title: "需要升级 ZCode",
-      message: "当前版本无法继续使用",
-      detail: `当前版本：v${requirement.currentVersion}\n最低可用版本：v${requirement.minimalVersion}`,
-      autoUpdateButton: "自动升级",
-      manualUpdateButton: "手动升级",
-      quitButton: "退出",
-    };
-  }
-
   return {
     title: "Update ZCode",
     message: "The current version can no longer be used",

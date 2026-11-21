@@ -180,11 +180,11 @@ export class BrowserTabRecoveryStore {
         const corruptPath = `${this.filePath}.corrupt-${Date.now()}`;
         try {
           await rename(this.filePath, corruptPath);
-          this.onWarning?.(`browser tab recovery 文件损坏，已隔离到 ${corruptPath}`);
+          this.onWarning?.(`browser tab recovery file corrupted, quarantined to ${corruptPath}`);
         } catch (renameError) {
           if ((renameError as NodeJS.ErrnoException).code !== "ENOENT") {
             this.onWarning?.(
-              `browser tab recovery 损坏文件隔离失败: ${
+              `browser tab recovery failed to quarantine corrupted file: ${
                 renameError instanceof Error ? renameError.message : String(renameError)
               }`,
             );

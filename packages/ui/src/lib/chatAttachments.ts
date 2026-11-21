@@ -74,10 +74,10 @@ function readFileAsDataUrl(file: File): Promise<string> {
         resolve(reader.result);
         return;
       }
-      reject(new Error("读取附件失败"));
+      reject(new Error("Failed to read attachment"));
     };
     reader.onerror = () => {
-      reject(reader.error ?? new Error("读取附件失败"));
+      reject(reader.error ?? new Error("Failed to read attachment"));
     };
     reader.readAsDataURL(file);
   });
@@ -440,12 +440,12 @@ export async function serializeChatComposerAttachment(
 
 async function readAttachmentBase64(attachment: ChatComposerAttachment): Promise<string> {
   if (!attachment.file) {
-    throw new Error("附件缺少可读取内容");
+    throw new Error("Attachment has no readable content");
   }
   const dataUrl = await readFileAsDataUrl(attachment.file);
   const base64MarkerIndex = dataUrl.indexOf(",");
   if (base64MarkerIndex === -1) {
-    throw new Error("附件数据格式不正确");
+    throw new Error("Invalid attachment data format");
   }
   return dataUrl.slice(base64MarkerIndex + 1);
 }
@@ -477,6 +477,6 @@ export function isMediaChatComposerAttachment(attachment: ChatComposerAttachment
 async function readAttachmentText(file: File): Promise<string> {
   const text = await file.text();
   return text.length > INLINE_TEXT_ATTACHMENT_MAX_CHARS
-    ? `${text.slice(0, INLINE_TEXT_ATTACHMENT_MAX_CHARS)}\n\n[内容过长，已截断]`
+    ? `${text.slice(0, INLINE_TEXT_ATTACHMENT_MAX_CHARS)}\n\n[Content too long, truncated]`
     : text;
 }

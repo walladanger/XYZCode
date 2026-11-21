@@ -19,24 +19,10 @@ export function isLocalePreference(value: unknown): value is LocalePreference {
 
 /**
  * 把系统/浏览器语言标签（如 navigator.language、app.getLocale()、Intl locale）映射到支持的界面语言。
- * 「跟随系统」统一走这里：zh*→zh-CN、ja*→ja-JP、ru*→ru-RU、ko*→ko-KR，其它和空值→en-US。
- * 以前各处各自写 `startsWith("zh") ? "zh-CN" : "en-US"`，新增语言时容易漏改。
+ * English-only：界面只显示英文，任何系统/浏览器语言都固定解析为 en-US。
  */
-export function resolveLocaleFromLanguageTag(tag: string | null | undefined): Locale {
-  const lower = tag?.trim().toLowerCase().replaceAll("_", "-") ?? "";
-  const primary = lower.split("-")[0] ?? "";
-  switch (primary) {
-    case "zh":
-      return "zh-CN";
-    case "ja":
-      return "ja-JP";
-    case "ru":
-      return "ru-RU";
-    case "ko":
-      return "ko-KR";
-    default:
-      return "en-US";
-  }
+export function resolveLocaleFromLanguageTag(_tag: string | null | undefined): Locale {
+  return "en-US";
 }
 
 /**

@@ -17,17 +17,7 @@ function formatTime(timestamp: number, locale: Locale): string {
   }).format(timestamp);
 }
 
-function formatWeekday(
-  timestamp: number,
-  locale: Locale,
-  formatMessage: IntlInstance["formatMessage"],
-): string {
-  if (locale === "zh-CN") {
-    return formatMessage(
-      { id: "settings.memory.viewer.updated.weekdayZh" },
-      { weekday: "日一二三四五六"[new Date(timestamp).getDay()] ?? "" },
-    );
-  }
+function formatWeekday(timestamp: number, locale: Locale): string {
   return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(timestamp);
 }
 
@@ -102,7 +92,7 @@ export function formatMemoryUpdatedAt({
   if (updatedDayStart >= weekStart.getTime()) {
     return formatMessage(
       { id: "settings.memory.viewer.updated.weekday" },
-      { time, weekday: formatWeekday(updatedAt, locale, formatMessage) },
+      { time, weekday: formatWeekday(updatedAt, locale) },
     );
   }
 

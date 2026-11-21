@@ -7,7 +7,7 @@ const DIRECTORY_MENU_KEY = `HKCU\\Software\\Classes\\Directory\\shell\\${MENU_KE
 const DRIVE_MENU_KEY = `HKCU\\Software\\Classes\\Drive\\shell\\${MENU_KEY_NAME}`;
 // 系统右键菜单只内置中英；其它界面语言用英文。
 const MENU_LABELS: Record<"zh-CN" | "en-US", string> = {
-  "zh-CN": "在ZCode中打开",
+  "zh-CN": "Open in ZCode",
   "en-US": "Open in ZCode",
 };
 

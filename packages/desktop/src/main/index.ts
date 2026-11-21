@@ -1626,11 +1626,9 @@ function shouldConfirmAppQuit() {
   );
 }
 
-function worktreeCreatingDetailLine(count: number, isZh: boolean): string | null {
+function worktreeCreatingDetailLine(count: number): string | null {
   if (count <= 0) return null;
-  return isZh
-    ? `正在新 worktree 中启动的任务：${count} 个，关闭后会丢失。`
-    : `Tasks starting in new worktrees: ${count}. They will be lost after closing.`;
+  return `Tasks starting in new worktrees: ${count}. They will be lost after closing.`;
 }
 
 /** 只关闭一个窗口时：仅当该窗口的 Host 有正在创建的 worktree 才确认，否则直接放行。 */
@@ -1638,15 +1636,14 @@ function confirmWindowCloseWithQuitBlockers(win: BrowserWindow): boolean {
   const host = windowHostProcessMap.get(win.id);
   const count = host ? getCreatingWorktreeCount([host]) : 0;
   if (count === 0) return true;
-  const isZh = currentApplicationLocale === "zh-CN";
   const result = dialog.showMessageBoxSync(win, {
     type: "question",
-    buttons: isZh ? ["关闭", "取消"] : ["Close", "Cancel"],
+    buttons: ["Close", "Cancel"],
     defaultId: 1,
     cancelId: 1,
-    title: isZh ? "关闭确认" : "Confirm Close",
-    message: isZh ? "确认关闭这个窗口？" : "Close this window?",
-    detail: worktreeCreatingDetailLine(count, isZh) ?? "",
+    title: "Confirm Close",
+    message: "Close this window?",
+    detail: worktreeCreatingDetailLine(count) ?? "",
     icon: nativeImage.createFromPath(iconPath),
   });
   return result === 0;
@@ -1658,15 +1655,12 @@ function confirmAppQuit(originWindow?: BrowserWindow | null) {
     return true;
   }
 
-  const isZh = currentApplicationLocale === "zh-CN";
   const runningAgentSessionCount = getRunningAgentSessionCount();
   const detailLines = [
     runningAgentSessionCount > 0
-      ? isZh
-        ? `正在进行的会话：${runningAgentSessionCount} 个，退出后会被中断。`
-        : `In-progress sessions: ${runningAgentSessionCount}. They will be interrupted after quitting.`
+      ? `In-progress sessions: ${runningAgentSessionCount}. They will be interrupted after quitting.`
       : null,
-    worktreeCreatingDetailLine(getCreatingWorktreeCount(), isZh),
+    worktreeCreatingDetailLine(getCreatingWorktreeCount()),
   ].filter((line): line is string => line !== null);
   const targetWindow =
     originWindow && !originWindow.isDestroyed()
@@ -1676,11 +1670,11 @@ function confirmAppQuit(originWindow?: BrowserWindow | null) {
         null);
   const dialogOptions = {
     type: "question" as const,
-    buttons: isZh ? ["退出", "取消"] : ["Quit", "Cancel"],
+    buttons: ["Quit", "Cancel"],
     defaultId: 1,
     cancelId: 1,
-    title: isZh ? "退出确认" : "Confirm Quit",
-    message: isZh ? "确认退出 Z Code?" : "Quit Z Code?",
+    title: "Confirm Quit",
+    message: "Quit Z Code?",
     detail: detailLines.join("\n"),
     icon: nativeImage.createFromPath(iconPath),
   };

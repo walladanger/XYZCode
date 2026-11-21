@@ -27,7 +27,7 @@ import type {
   UserInfo,
   ZCodeInteractionBehavior,
 } from "@zcode/shared";
-import { BUILTIN_MODEL_PROVIDER_IDS, isLocale } from "@zcode/shared";
+import { BUILTIN_MODEL_PROVIDER_IDS } from "@zcode/shared";
 import {
   TID_SETTINGS_BACK_BUTTON,
   TID_SETTINGS_PAGE,
@@ -340,7 +340,7 @@ export function SettingsPage({
   onLogout?: () => void;
   user?: UserInfo | null;
 }) {
-  const { intl, localePreference, setLocalePreference } = useZCodeIntl();
+  const { intl } = useZCodeIntl();
   const { settingsSectionGroups, settingsSections } = useMemo(
     () =>
       createSettingsPageConfig({
@@ -1384,28 +1384,6 @@ export function SettingsPage({
     },
     [updateSharedSettings],
   );
-  const handleFooterLocaleChange = useCallback(
-    (value: string) => {
-      if (value === "system") {
-        runUserAction({
-          input: { featureId: "settings.locale", action: "change_locale", trigger: "select" },
-          operation: () => setLocalePreference("system"),
-          completed: { resultSource: "local_commit", valueAfter: "system" },
-          failureStage: "local_commit",
-        });
-        return;
-      }
-      if (isLocale(value)) {
-        runUserAction({
-          input: { featureId: "settings.locale", action: "change_locale", trigger: "select" },
-          operation: () => setLocalePreference(value),
-          completed: { resultSource: "local_commit", valueAfter: value },
-          failureStage: "local_commit",
-        });
-      }
-    },
-    [setLocalePreference],
-  );
   const handleFooterThemeChange = useCallback(
     (value: string) => {
       if (
@@ -1659,8 +1637,6 @@ export function SettingsPage({
               <div className="max-lg:hidden">
                 <WorkspaceSidebarFooter
                   theme={theme}
-                  localeMenuValue={localePreference}
-                  onLocaleChange={handleFooterLocaleChange}
                   onThemeChange={handleFooterThemeChange}
                   onSettingsButtonClick={onBack}
                   onUsageClick={handleOpenUsageSettings}
@@ -1790,9 +1766,8 @@ export function SettingsPage({
                         ) : null}
                         <div className="space-y-8">
                           {activeSection === "general" ? (
-                            <GeneralSectionContent
-                              localePreference={localePreference}
-                              interfaceMode={interfaceMode}
+            <GeneralSectionContent
+              interfaceMode={interfaceMode}
                               setInterfaceMode={setInterfaceMode}
                               isDesktop={isDesktop}
                               isWindowsDesktop={isWindowsDesktop}
@@ -1820,7 +1795,6 @@ export function SettingsPage({
                               httpProxyCaCertPath={httpProxyCaCertPath}
                               defaultHomeDir={defaultHomeDir}
                               showIntegratedTerminalShell={hostPlatform === "win32"}
-                              setLocalePreference={handleFooterLocaleChange}
                               setNotificationEnabled={(enabled) =>
                                 runUserAction({
                                   input: {

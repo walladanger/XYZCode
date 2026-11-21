@@ -53,10 +53,6 @@ export function initialWorkflowSaveDraft(input: {
   };
 }
 
-function isZh(locale: string): boolean {
-  return locale.toLowerCase().startsWith("zh");
-}
-
 /**
  * 「让 ZCode 帮我提炼保存」发出去的那条用户消息（docs/dynamic-workflow/transcript-and-notifications.md
  * 「The message the lead sends」）。与中枢的「提升为全局」同一条先例：GUI 写、自动发、用户不再确认。
@@ -76,20 +72,6 @@ export function buildWorkflowSaveRequestPrompt(input: {
   const name = input.name.trim();
   const description = input.description.trim();
   const runName = input.runName?.trim();
-  if (isZh(input.locale)) {
-    const target =
-      input.scope === "global" ? '保存为全局工作流（scope: "global"）' : "保存到本项目";
-    return [
-      `请把刚跑完的工作流${runName ? `「${runName}」` : ""}提炼成可以复用的工作流，用 SaveWorkflow ${target}：`,
-      "1. 脚本以这次运行实际执行的那一份为准，不要改动它的逻辑。",
-      "2. 把两次运行之间会变化的值抽成 args（写好说明与合理默认值），并补齐 description 与 whenToUse。",
-      name.length > 0 ? `3. 名字用 \`${name}\`。` : "3. 名字请你来取（只能用字母、数字和 - _ .）。",
-      description.length > 0 ? `4. 说明可以参考：${description}` : "",
-      `5. 调用 SaveWorkflow 时带上 run_id: "${input.runId}"——这次运行要据此认出自己已被保存。`,
-    ]
-      .filter((line) => line.length > 0)
-      .join("\n");
-  }
   const target =
     input.scope === "global"
       ? 'save it as a global workflow (scope: "global")'

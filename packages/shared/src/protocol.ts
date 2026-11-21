@@ -114,8 +114,8 @@ export interface IntegratedTerminalShellOption {
   source: "system" | "path";
 }
 
-/** 默认语言 */
-export const DEFAULT_LOCALE: Locale = "zh-CN";
+/** 默认语言（English-only：界面只显示英文） */
+export const DEFAULT_LOCALE: Locale = "en-US";
 
 // ── Workspace / Tab ──
 

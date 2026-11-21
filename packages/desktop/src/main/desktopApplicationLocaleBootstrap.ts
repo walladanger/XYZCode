@@ -31,7 +31,8 @@ export function extractBootstrapApplicationLocale(rawValue: unknown): Locale | u
   // 旧字段 locale 为兼容降级只存中英，必须走 resolvePersistedUiLocale 新字段优先，
   // 否则 ja/ru/ko 用户冷启动第一个请求的 X-Client-Language 会退化成 en-US。
   const locale = resolvePersistedUiLocale(rawValue as Record<string, unknown>);
-  return isLocale(locale) ? locale : undefined;
+  // English-only：Main 进程只以 en-US 启动，忽略持久化的其它语言值。
+  return isLocale(locale) ? "en-US" : undefined;
 }
 
 /**

@@ -93,9 +93,9 @@ async function clearAllDataAndRelaunch(options: {
     defaultId: 0,
     cancelId: 0,
     title: "Clear All Data",
-    message: "确定要清除所有数据吗？",
+    message: "Are you sure you want to clear all data?",
     detail:
-      "将删除 ~/.zcode/v2（配置、凭据、日志）和浏览器缓存（localStorage）。操作不可恢复，清除后应用将自动重启。",
+      "This deletes ~/.zcode/v2 (configuration, credentials, logs) and browser cache (localStorage). This cannot be undone, and the app will restart after clearing.",
   });
   if (response !== 1) {
     return;
@@ -667,7 +667,7 @@ export async function executeDesktopCommand(options: {
         await showMessageBoxWithOptionalParent(targetWindow, {
           type: "error",
           title: "ZCode Endpoint",
-          message: "Endpoint 无效",
+          message: "Invalid endpoint",
           detail: error instanceof Error ? error.message : String(error),
         });
       }

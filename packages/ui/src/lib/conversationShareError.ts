@@ -330,15 +330,15 @@ const WARNING_MESSAGE_IDS: Readonly<
 
 const ARTIFACT_TYPE_LABELS: Readonly<Record<string, { zh: string; en: string }>> = {
   pdf: { zh: "PDF", en: "PDF" },
-  pptx: { zh: "PPT", en: "PowerPoint" },
-  docx: { zh: "Word 文档", en: "Word document" },
-  xlsx: { zh: "Excel 表格", en: "Excel spreadsheet" },
-  image: { zh: "图片", en: "image" },
+  pptx: { zh: "PowerPoint", en: "PowerPoint" },
+  docx: { zh: "Word document", en: "Word document" },
+  xlsx: { zh: "Excel spreadsheet", en: "Excel spreadsheet" },
+  image: { zh: "image", en: "image" },
   html: { zh: "HTML", en: "HTML" },
   md: { zh: "Markdown", en: "Markdown" },
-  text: { zh: "纯文本", en: "plain text" },
-  video: { zh: "视频", en: "video" },
-  audio: { zh: "音频", en: "audio" },
+  text: { zh: "plain text", en: "plain text" },
+  video: { zh: "video", en: "video" },
+  audio: { zh: "audio", en: "audio" },
 };
 
 // 这里只有中英两套文案：中文界面用中文，其它界面语言（含 ja-JP/ru-RU/ko-KR）用英文。
@@ -357,7 +357,7 @@ export function formatConversationShareArtifactType(
   issue: ConversationShareFailureIssue,
   locale: string,
 ): string {
-  const value = issue.artifactType || issue.extension || issue.mimeType || "文件";
+  const value = issue.artifactType || issue.extension || issue.mimeType || "file";
   return artifactLabel(value, locale);
 }
 
@@ -369,12 +369,12 @@ export function formatConversationShareAllowedArtifacts(
     const labels = issue.allowedArtifacts.map((artifact) =>
       artifactLabel(artifact.displayName || artifact.type, locale),
     );
-    return [...new Set(labels)].join(isChineseShareLocale(locale) ? "、" : ", ");
+    return [...new Set(labels)].join(", ");
   }
   if (issue.allowedFormats && issue.allowedFormats.length > 0) {
-    return issue.allowedFormats.join(isChineseShareLocale(locale) ? "、" : ", ");
+    return issue.allowedFormats.join(", ");
   }
-  return isChineseShareLocale(locale) ? "暂时无法获取" : "temporarily unavailable";
+  return "temporarily unavailable";
 }
 
 export function resolveConversationShareWarningMessageId(

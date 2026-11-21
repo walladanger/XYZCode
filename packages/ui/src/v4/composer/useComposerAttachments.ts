@@ -460,7 +460,7 @@ export function useComposerAttachments(
             },
           },
         );
-        if (!ref) throw new Error("附件缺少可读取内容");
+        if (!ref) throw new Error("Attachment has no readable content");
         if (controllersRef.current.get(controllerKey) !== controller) return;
         finishWithReady(targetScopeKey, attachmentId, ref, false);
       } catch (error) {
@@ -832,7 +832,7 @@ export function useComposerAttachments(
             text,
             filename: createClipboardTextAttachmentFilenameForDate(),
           });
-          if (!attachment) throw new Error("当前平台不支持临时文本附件");
+          if (!attachment) throw new Error("Temporary text attachments are not supported on this platform");
           addPreparedAttachments([createClipboardTextPathComposerAttachment(text, attachment)]);
         } catch (error) {
           logger.warn("[v4-composer-attachments] 创建粘贴文本临时附件失败", error);

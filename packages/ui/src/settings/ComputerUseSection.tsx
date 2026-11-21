@@ -759,7 +759,7 @@ export function ComputerUseSection({
                   { id: "cuaPermission.osFloorTitle" },
                   {
                     minimum: osSupport?.minimumMacOs ?? "12.0",
-                    current: osSupport?.currentMacOs ?? "12 以下",
+                    current: osSupport?.currentMacOs ?? "12 or below",
                   },
                 )}
               </p>

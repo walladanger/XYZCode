@@ -18,19 +18,21 @@ import { WebRemoteControlSwitchAccountDialog } from "#src/web-remote-control/ui/
 
 const copyByLocale = {
   "zh-CN": {
-    title: "选择电脑",
-    switchAccount: "切换",
-    switchAccountFallback: "切换账号",
-    refresh: "刷新",
-    loading: "正在加载设备…",
-    online: "在线",
-    offline: "离线",
-    unnamed: "未命名设备",
-    connections: (count: number) => `${count} 个连接`,
-    notFound: "没看到你的电脑？在电脑端 ZCode 登录同一账号并开启远程控制，然后刷新。",
-    emptyTitle: "暂无设备",
-    emptyDescription: "在电脑端登录同一账号并开启 Web 远程控制，然后刷新列表。",
-    error: "无法加载设备，请检查网络后刷新。",
+    title: "Choose a computer",
+    switchAccount: "Switch",
+    switchAccountFallback: "Switch account",
+    refresh: "Refresh",
+    loading: "Loading devices…",
+    online: "Online",
+    offline: "Offline",
+    unnamed: "Unnamed device",
+    connections: (count: number) => `${count} connections`,
+    notFound:
+      "Don't see your computer? Sign in to ZCode on it with the same account, turn on remote control, then refresh.",
+    emptyTitle: "No devices yet",
+    emptyDescription:
+      "Sign in with the same account on your computer, enable Web remote control, then refresh this list.",
+    error: "Could not load devices. Check your connection and refresh.",
   },
   "en-US": {
     title: "Choose a computer",

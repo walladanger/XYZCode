@@ -615,7 +615,7 @@ export function createRemoteWorkspaceSessionManager(options: {
           requestId,
           sessionId: descriptor.remoteSessionId,
           level: "info",
-          message: `远程 ${descriptor.target.kind} workspace 已连接`,
+          message: `Remote ${descriptor.target.kind} workspace connected`,
         });
         pending.onConnected?.(descriptor);
         pending.resolve(descriptor.remoteSessionId);
@@ -705,7 +705,7 @@ export function createRemoteWorkspaceSessionManager(options: {
         emitConnectionLog(win, {
           sessionId: descriptor.remoteSessionId,
           level: "info",
-          message: `远程 ${descriptor.target.kind} workspace 已自动重连`,
+          message: `Remote ${descriptor.target.kind} workspace reconnected automatically`,
         });
         void options.webRemoteControlManagerRef.current
           ?.replaceRemoteSession?.({
@@ -859,7 +859,7 @@ export function createRemoteWorkspaceSessionManager(options: {
         "window-host:connection-offline",
         {
           reason: "workspace-closed",
-          message: "远程工作区连接已结束，请在桌面端重新连接。",
+          message: "The remote workspace connection has ended. Reconnect from the desktop.",
         },
       );
     }
@@ -882,7 +882,7 @@ export function createRemoteWorkspaceSessionManager(options: {
       emitConnectionLog(win, {
         sessionId: event.remoteSessionId,
         level: "warn",
-        message: event.error || "远程 workspace 连接已断开",
+        message: event.error || "Remote workspace connection lost",
       });
     }
   }
@@ -1215,7 +1215,7 @@ export function createRemoteWorkspaceSessionManager(options: {
     emitConnectionLog(win, {
       requestId: resolvedRequestId,
       level: "info",
-      message: `正在通过窗口 Host 连接 ${resolvedTarget.kind} workspace`,
+      message: `Connecting ${resolvedTarget.kind} workspace through the window host`,
     });
     return new Promise<string>((resolve, reject) => {
       pendingByRequestKey.set(key, {

@@ -61,14 +61,25 @@ export function resolveLocalePreferenceFromSettings({
   settingsLocalePreference: LocalePreference | undefined;
   preferSettingServiceLocale: boolean;
 }): LocalePreference | null {
+  // English-only：任何持久化偏好（localStorage 或 setting.json）都收口为 en-US；
+  // "system" 保留原语义，经 resolveLocaleFromLanguageTag 也已固定为 en-US。
+  const coerceToEnglish = (
+    preference: LocalePreference | Locale | null | undefined,
+  ): LocalePreference | null | undefined =>
+    preference === null || preference === undefined || preference === "system"
+      ? preference
+      : "en-US";
+
   if (preferSettingServiceLocale && settingsLocale) {
-    if (settingsLocalePreference === "system") {
-      return settingsLocale;
-    }
-    return settingsLocale;
+    return coerceToEnglish(settingsLocale) ?? null;
   }
 
-  return storedPreference ?? settingsLocalePreference ?? settingsLocale ?? null;
+  return (
+    coerceToEnglish(storedPreference) ??
+    coerceToEnglish(settingsLocalePreference) ??
+    coerceToEnglish(settingsLocale) ??
+    null
+  );
 }
 
 export function shouldApplyLocaleBroadcastMessage(

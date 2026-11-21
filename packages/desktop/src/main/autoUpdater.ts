@@ -395,9 +395,7 @@ function notifyForceAutoUpdate(state: ForceAutoUpdateState) {
 }
 
 function getForceAutoUpdateNoUpdateMessage(): string {
-  return menuLocale === "zh-CN"
-    ? "未找到可安装更新，请使用手动升级。"
-    : "No installable update was found. Use manual update instead.";
+  return "No installable update was found. Use manual update instead.";
 }
 
 function normalizeProgressPercent(progress: unknown): string | undefined {

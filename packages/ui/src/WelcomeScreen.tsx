@@ -540,8 +540,8 @@ export function LoginPanel({ active, onComplete }: LoginPanelProps) {
                       // 用户手动切换后，区域不再跟随后续语言变化。
                       loginRegionUserSelectedRef.current = true;
                       setLoginRegion(nextRegion);
-                      // 区域切换与界面语言联动：国内入口使用中文，海外入口使用英文。
-                      setLocalePreference(nextRegion === "domestic" ? "zh-CN" : "en-US");
+                      // English-only：区域切换不再联动界面语言，始终英文。
+                      setLocalePreference("en-US");
                     }}
                   >
                     {intl.formatMessage({

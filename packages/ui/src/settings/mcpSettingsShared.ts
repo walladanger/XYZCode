@@ -156,7 +156,7 @@ export function jsonDraftToForm(jsonText: string, fallback: FormState): FormStat
   if (isRecord(parsed) && isRecord(parsed.mcpServers)) {
     const entries = Object.entries(parsed.mcpServers).filter(([, value]) => isRecord(value));
     if (entries.length !== 1) {
-      throw new Error("JSON 模式暂时只支持一次编辑一个 MCP server");
+      throw new Error("JSON mode currently supports editing only one MCP server at a time");
     }
     const [singleName, singleConfig] = entries[0]!;
     serverName = singleName;
@@ -176,11 +176,11 @@ export function jsonDraftToForm(jsonText: string, fallback: FormState): FormStat
   }
 
   if (!isRecord(serverConfig)) {
-    throw new Error("JSON 内容不是有效的 MCP server 配置对象");
+    throw new Error("JSON content is not a valid MCP server configuration object");
   }
 
   if (!serverName) {
-    throw new Error("JSON 模式需要提供 server 名称");
+    throw new Error("JSON mode requires a server name");
   }
 
   const normalizedConfig = serverConfig as McpServerConfig;

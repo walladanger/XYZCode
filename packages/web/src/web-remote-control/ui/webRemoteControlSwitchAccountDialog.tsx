@@ -13,10 +13,11 @@ import type { WebRemoteControlScreenLocale } from "#src/web-remote-control/domai
 
 const copyByLocale = {
   "zh-CN": {
-    title: "切换账号？",
-    description: "将退出当前手机网页端账号，返回登录页。电脑端仍保持登录。",
-    cancel: "取消",
-    confirm: "退出并切换",
+    title: "Switch account?",
+    description:
+      "You will sign out of this mobile web session and return to the sign-in page. Your computer will stay signed in.",
+    cancel: "Cancel",
+    confirm: "Sign out & switch",
   },
   "en-US": {
     title: "Switch account?",

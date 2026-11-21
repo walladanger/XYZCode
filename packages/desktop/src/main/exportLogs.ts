@@ -1534,7 +1534,7 @@ export async function exportLogs(
       } catch (directoryError) {
         const directoryErrorMessage =
           directoryError instanceof Error ? directoryError.message : String(directoryError);
-        throw new Error(`zip 导出失败：${zipErrorMessage}；目录导出失败：${directoryErrorMessage}`);
+        throw new Error(`zip export failed: ${zipErrorMessage}; directory export failed: ${directoryErrorMessage}`);
       }
 
       await showItemInFolder(directoryPath);

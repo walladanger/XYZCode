@@ -9,7 +9,7 @@ const WORKFLOW_BUNDLE_ID = "dev.zcode.app.finder-open-workflow";
 const WORKFLOW_VERSION = "5";
 // Finder 服务菜单只内置中英；其它界面语言用英文。
 const SERVICES_MENU_LABELS: Record<"zh-CN" | "en-US", string> = {
-  "zh-CN": "在ZCode中打开",
+  "zh-CN": "Open in ZCode",
   "en-US": "Open in ZCode",
 };
 

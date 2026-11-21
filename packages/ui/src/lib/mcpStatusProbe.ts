@@ -42,7 +42,7 @@ async function testUrlServer(
   if (!config.url) {
     return {
       success: false,
-      error: "URL 类型服务器缺少 url 配置",
+      error: "URL-type server is missing the url configuration",
       response_time: Date.now() - startTime,
     };
   }
@@ -79,7 +79,7 @@ function testStdioServer(config: McpServerConfig, startTime: number): McpTestRes
   if (!config.command?.trim()) {
     return {
       success: false,
-      error: "stdio 类型服务器缺少 command 配置",
+      error: "stdio-type server is missing the command configuration",
       response_time: Date.now() - startTime,
     };
   }
@@ -104,7 +104,7 @@ export async function testMcpConnectivity(config: McpServerConfig): Promise<McpT
 
   return {
     success: false,
-    error: `无效的 MCP 服务器配置: ${normalizedConfig.type ?? "unknown"}`,
+    error: `Invalid MCP server configuration: ${normalizedConfig.type ?? "unknown"}`,
     response_time: Date.now() - startTime,
   };
 }

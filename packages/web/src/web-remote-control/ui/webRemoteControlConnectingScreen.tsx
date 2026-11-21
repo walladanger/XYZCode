@@ -12,20 +12,25 @@ export interface WebRemoteControlConnectingDevice {
 
 const copyByLocale = {
   "zh-CN": {
-    connectingTo: (name: string) => `正在连接 ${name}`,
-    connectingFallback: "正在连接电脑",
-    steps: ["连接中转服务", "设备鉴权", "等待桌面端配对", "同步工作区"],
+    connectingTo: (name: string) => `Connecting to ${name}`,
+    connectingFallback: "Connecting to your computer",
+    steps: [
+      "Connect to relay service",
+      "Authenticate device",
+      "Wait for desktop pairing",
+      "Sync workspace",
+    ],
     stages: {
-      connecting: "正在连接中转服务…",
-      authenticating: "正在认证设备…",
-      waiting: "等待桌面端确认配对…",
-      paired: "已配对，正在加载工作区…",
-      reconnecting: "连接中断，正在重连…",
-      suspended: "页面在后台，等待恢复…",
-      other: "正在准备远程控制…",
+      connecting: "Connecting relay service…",
+      authenticating: "Authenticating device…",
+      waiting: "Waiting for desktop pairing…",
+      paired: "Paired. Loading workspace…",
+      reconnecting: "Connection interrupted, reconnecting…",
+      suspended: "Page is in background, waiting to recover…",
+      other: "Preparing remote control…",
     },
-    reconnectingDescription: "网络或休眠恢复后会自动重连，请稍候。",
-    suspendedDescription: "回到前台后会自动恢复连接。",
+    reconnectingDescription: "Auto-reconnecting after network or wake-up changes.",
+    suspendedDescription: "Connection will recover automatically when back in foreground.",
   },
   "en-US": {
     connectingTo: (name: string) => `Connecting to ${name}`,

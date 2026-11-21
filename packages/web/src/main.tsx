@@ -259,16 +259,12 @@ function renderWebRemoteControlFailure(failure: WebRemoteControlFailure): void {
       failure={failure}
       locale={resolveWebRemoteControlScreenLocale(navigator.language)}
       primaryActionLabel={
-        failure.reason === "device-not-owned"
-          ? isZhLocale()
-            ? "切换账号"
-            : "Switch account"
-          : undefined
+        failure.reason === "device-not-owned" ? "Switch account" : undefined
       }
       secondaryAction={
         isWebRemoteControlRoute()
           ? {
-              label: isZhLocale() ? "选择其他设备" : "Choose another device",
+              label: "Choose another device",
               onClick: () => {
                 void remoteEntry.chooseOtherDevice();
               },
@@ -319,7 +315,7 @@ async function renderConversationSharePage(): Promise<void> {
   document.documentElement.lang = routeLocale;
   // 分享页必须设置 title：否则浏览器标签只显示 index.html 的通用标题。
   // 会话标题要等 preview 加载完，先给一个语言正确的兜底。
-  document.title = routeLocale === "zh-CN" ? "ZCode 会话分享" : "ZCode Conversation Share";
+  document.title = "ZCode Conversation Share";
   const shareCode = resolveConversationShareCodeFromPath(window.location.pathname);
   if (!shareCode) {
     root.render(
@@ -819,10 +815,6 @@ export function createHomeOnlyWebRemoteControlServices(): RootServices {
 
 function resolveExternalRelayWsUrl(): string {
   return resolveWebRemoteControlRelayWsUrl({ endpointOrigin: window.location.origin });
-}
-
-function isZhLocale(): boolean {
-  return /^zh\b/i.test(navigator.language);
 }
 
 function renderWebRemoteControlLoading(
