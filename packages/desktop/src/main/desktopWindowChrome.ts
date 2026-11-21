@@ -807,10 +807,32 @@ export function createBrowserWindow(options: {
   win.webContents.on("context-menu", (_event, params) => {
     // 只设置 Electron role 时，菜单文案跟随系统/Electron 语言，可能与应用语言不一致。
     // 每次右键时读取当前 locale 并显式设置 label，切换语言后下一次打开即可生效。
-    const template = buildTextContextMenuTemplate(
-      params,
-      options.currentApplicationLocale?.() ?? DEFAULT_LOCALE,
-    );
+    const locale = options.currentApplicationLocale?.() ?? DEFAULT_LOCALE;
+    const template = buildTextContextMenuTemplate(params, locale);
+
+    // 拼写检查词典：错词右键只发生在可编辑区域（含 composer 输入框）。
+    // 提供 Chromium 拼写建议与“添加到字典”；自定义词写入 session 词典并持久化到 userData。
+    if (params.misspelledWord) {
+      const spellItems: MenuItemConstructorOptions[] = [];
+      for (const suggestion of params.dictionarySuggestions ?? []) {
+        spellItems.push({
+          label: suggestion,
+          click: () => win.webContents.replaceMisspelling(suggestion),
+        });
+      }
+      if (spellItems.length > 0) {
+        spellItems.push({ type: "separator" });
+      }
+      spellItems.push({
+        label: getDesktopMenuMessage(locale, desktopMenuMessageIds.editAddToDictionary),
+        click: () =>
+          win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord),
+      });
+      if (template.length > 0) {
+        spellItems.push({ type: "separator" });
+      }
+      template.unshift(...spellItems);
+    }
 
     if (!app.isPackaged) {
       if (template.length > 0) {

@@ -995,7 +995,7 @@ export function ChatContextUsage({
       <ContextContent
         className={cn(contextPanelWidthClass, "!rounded-xl !shadow-md")}
         side="top"
-        sideOffset={2}
+        sideOffset={8}
       >
         <ContextContentBody className="space-y-3">
           {/* Bugfix: 默认 ai-elements Header 会硬编码标题并把摘要拆到独立头部。

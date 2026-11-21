@@ -146,7 +146,7 @@ export type ContextContentProps = ComponentProps<typeof HoverCardContent>;
 export const ContextContent = ({ className, ...props }: ContextContentProps) => (
   <HoverCardContent
     className={cn(
-      "!w-64 overflow-hidden rounded-lg border border-border bg-tooltip p-0 text-tooltip-foreground shadow-none ring-0 outline-0",
+      "!w-64 overflow-hidden rounded-lg border border-border bg-tooltip/85 backdrop-blur-md p-0 text-tooltip-foreground shadow-none ring-0 outline-0",
       className,
     )}
     {...props}
