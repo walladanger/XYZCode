@@ -1831,7 +1831,7 @@ export function LexicalChatInput({
       data-testid={inputTestId}
       onFocus={onFocus}
       {...contentEditableProps}
-      {/* 拼写检查词典：正文显式开启 Chromium 拼写检查，桌面端配套原生右键“添加到字典”。 */}
+      // 拼写检查词典：正文显式开启 Chromium 拼写检查，桌面端配套原生右键“添加到字典”。
       spellCheck={true}
       autoCorrect="on"
     />
