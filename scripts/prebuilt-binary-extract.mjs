@@ -11,11 +11,12 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import process from "node:process";
-import { runCommand } from "./spawn-command.mjs";
+import { runCommand, runCommandAndReadStdout } from "./spawn-command.mjs";
 
 // Bugfix: Windows GNU tar（Git Bash）会把绝对路径里的盘符冒号（C:）当成远程主机名，
-// 反斜杠路径也会被 MSYS 参数转换破坏。tar 参数统一转正斜杠，归档路径优先改用
-// 相对 cwd 的形式避开盘符冒号；对 bsdtar 与 Linux/macOS CI 无影响。
+// 也不解析含 ../ 前缀的相对归档路径；反斜杠路径会被 MSYS 参数转换破坏。tar 参数统一
+// 转正斜杠，归档路径优先改用不跨越 cwd 的相对形式；必须用绝对路径时给 GNU tar 加
+// --force-local 才能本地解包。bsdtar 与 Linux/macOS 不受影响。
 function toTarPosixPath(pathValue) {
   return pathValue.replaceAll("\\", "/");
 }
@@ -28,11 +29,28 @@ function resolveTarArchiveArg(archivePath, cwd) {
         return toTarPosixPath(relativeArchivePath);
       }
     } catch {
-      // 跨盘符时 relative 会抛错，退回正斜杠绝对路径（bsdtar 可用）。
+      // 跨盘符时 relative 会抛错，退回正斜杠绝对路径。
     }
   }
 
   return toTarPosixPath(archivePath);
+}
+
+let gnuTarOnWindowsCache;
+function isGnuTarOnWindows() {
+  if (gnuTarOnWindowsCache !== undefined) {
+    return gnuTarOnWindowsCache;
+  }
+  gnuTarOnWindowsCache = false;
+  if (process.platform === "win32") {
+    try {
+      const versionOutput = runCommandAndReadStdout("tar", ["--version"]);
+      gnuTarOnWindowsCache = /GNU tar/u.test(versionOutput);
+    } catch {
+      // 拿不到版本信息时按非 GNU tar 处理（bsdtar 默认行为）。
+    }
+  }
+  return gnuTarOnWindowsCache;
 }
 
 export function extractPrebuiltArchive({ archivePath, archiveExt, extractDir, cwd }) {
@@ -55,11 +73,13 @@ export function extractPrebuiltArchive({ archivePath, archiveExt, extractDir, cw
   }
 
   const tarCwd = cwd ?? process.cwd();
-  runCommand(
-    "tar",
-    ["-xzf", resolveTarArchiveArg(archivePath, tarCwd), "-C", toTarPosixPath(extractDir)],
-    { cwd: tarCwd },
-  );
+  const archiveArg = resolveTarArchiveArg(archivePath, tarCwd);
+  const tarArgs = ["-xzf", archiveArg, "-C", toTarPosixPath(extractDir)];
+  // GNU tar 在 win32 上遇到绝对归档路径（含盘符冒号）需要 --force-local 才能本地解包。
+  if (isGnuTarOnWindows() && /^[A-Za-z]:[\\/]/u.test(archiveArg)) {
+    tarArgs.unshift("--force-local");
+  }
+  runCommand("tar", tarArgs, { cwd: tarCwd });
 }
 
 export function findPrebuiltBinary(rootDir, binaryName) {
