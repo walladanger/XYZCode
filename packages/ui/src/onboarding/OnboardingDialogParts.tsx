@@ -11,6 +11,7 @@ export type OnboardingWizardStep =
   // | "plugins-import"
   | "commands-import"
   | "agents-file"
+  | "data-restore"
   | "migration";
 
 const WIZARD_STEPS: Array<{
@@ -25,7 +26,8 @@ const WIZARD_STEPS: Array<{
   // { key: "plugins-import", index: 4, titleId: "onboarding.step.pluginsImport" },
   { key: "commands-import", index: 4, titleId: "onboarding.step.commandsImport" },
   { key: "agents-file", index: 5, titleId: "onboarding.step.agentsFile" },
-  { key: "migration", index: 6, titleId: "onboarding.step.migration" },
+  { key: "data-restore", index: 6, titleId: "onboarding.step.dataRestore" },
+  { key: "migration", index: 7, titleId: "onboarding.step.migration" },
 ];
 
 export function getOnboardingStepMessageKey(step: OnboardingWizardStep): string {
@@ -40,6 +42,8 @@ export function getOnboardingStepMessageKey(step: OnboardingWizardStep): string 
       return "commandsImport";
     case "agents-file":
       return "agentsFile";
+    case "data-restore":
+      return "dataRestore";
 
     case "migration":
       return "migration";

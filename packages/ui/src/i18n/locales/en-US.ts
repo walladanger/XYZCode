@@ -6207,6 +6207,7 @@ const enUS: Record<string, string> = {
   "onboarding.step.commandsImport": "Commands",
   "onboarding.step.agentsFile": "AGENTS.md",
   "onboarding.step.agentSettings": "Agent settings",
+  "onboarding.step.dataRestore": "Restore data",
   "onboarding.step.migration": "Migration",
   "onboarding.stepDescription.session":
     "Review what we found and choose sessions and workspaces to migrate.",
@@ -6237,6 +6238,14 @@ const enUS: Record<string, string> = {
   "onboarding.agentsFile.missingSource":
     "Could not find ~/.claude/CLAUDE.md, so Claude user memory cannot be migrated.",
   "onboarding.agentsFile.error": "Could not check AGENTS.md migration status: {error}",
+  "onboarding.dataRestore.selectZip": "Select backup",
+  "onboarding.dataRestore.noZip": "No backup file selected",
+  "onboarding.dataRestore.run": "Restore selected",
+  "onboarding.dataRestore.category.settings": "Settings",
+  "onboarding.dataRestore.category.conversations": "Conversation history",
+  "onboarding.dataRestore.category.memory": "Memory notes",
+  "onboarding.dataRestore.restored": "Restored",
+  "onboarding.dataRestore.skipped": "Skipped",
   "onboarding.agentsFile.confirmTitle": "Overwrite default AGENTS.md?",
   "onboarding.agentsFile.confirmDescription":
     "ZCode will copy {source} to {target}.\nIf the target file already exists, the ZCode default AGENTS configuration will be overwritten.",

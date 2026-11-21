@@ -906,6 +906,9 @@ contextBridge.exposeInMainWorld("zcode", {
   /** 从自动发现的 Chrome Profile 一次性导入内置浏览器数据。 */
   importChromeBrowserData: (options?: import("@zcode/shared").ChromeBrowserDataImportOptions) =>
     ipcRenderer.invoke(PlatformChannels.ImportChromeBrowserData, options),
+  /** 从导出 zip 恢复选定类别的用户数据（settings / conversations / memory）。 */
+  restoreData: (request: import("@zcode/shared").RestoreDataRequest) =>
+    ipcRenderer.invoke(PlatformChannels.RestoreData, request),
   /** 清理内置浏览器缓存或全部站点数据。 */
   clearEmbeddedBrowserData: (mode: "cache" | "all") =>
     ipcRenderer.invoke(PlatformChannels.ClearEmbeddedBrowserData, mode),

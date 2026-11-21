@@ -124,6 +124,7 @@ import { createAppTelemetryRuntime } from "./appTelemetryRuntime.js";
 import { createRendererActionTraceBroker } from "./rendererActionTraceBroker.js";
 import { createRendererActionTraceExporter } from "./rendererActionTraceExporter.js";
 import { registerRendererActionTraceIpc } from "./rendererActionTraceIpc.js";
+import { registerDataRestoreIpcHandlers } from "./desktopDataRestoreIpc.js";
 import { createRendererActionTraceRollout } from "./rendererActionTraceRollout.js";
 import {
   resolveAppShutdownPolicy,
@@ -2473,6 +2474,7 @@ app.whenReady().then(async () => {
   }
 
   registerAppControlNavigationIpc(ipcMain, (contents) => BrowserWindow.fromWebContents(contents));
+  registerDataRestoreIpcHandlers(logger);
   registerPlatformIpcHandlers({
     fetchHelpConfig: readHelpConfig,
     logger,

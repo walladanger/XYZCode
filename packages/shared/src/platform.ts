@@ -515,6 +515,26 @@ export interface ChromeBrowserDataImportOptions {
   allowElevatedChromeDecryption?: boolean;
 }
 
+/** 可恢复的用户数据类别；credentials 刻意排除（密钥环绑定本机）。 */
+export type RestorableDataCategory = "settings" | "conversations" | "memory";
+
+export interface RestoreDataRequest {
+  /** 导出 zip 的绝对路径（scripts/export-data.mjs 产出）。 */
+  zipPath: string;
+  /** 勾选恢复的类别；未勾选的类别即使存在于 zip 中也跳过。 */
+  categories: RestorableDataCategory[];
+}
+
+export type RestoreDataCategoryResult =
+  | { restored: true; skipped: false; note?: string }
+  | { restored: false; skipped: true; reason: string };
+
+export interface RestoreDataResult {
+  success: boolean;
+  error?: string;
+  categories: Partial<Record<RestorableDataCategory, RestoreDataCategoryResult>>;
+}
+
 /** Chrome 浏览器数据导入只返回数量和状态；Cookie/LocalStorage 值和解密材料不得跨进程。 */
 export interface ChromeBrowserDataImportResult {
   success: boolean;
@@ -1308,6 +1328,9 @@ export interface IPlatformService {
   importChromeBrowserData?(
     options?: ChromeBrowserDataImportOptions,
   ): Promise<ChromeBrowserDataImportResult>;
+
+  /** 从导出 zip 恢复选定类别的用户数据（settings / conversations / memory）。 */
+  restoreData?(request: RestoreDataRequest): Promise<RestoreDataResult>;
 
   /** 清理内置浏览器持久化分区；cache 模式保留认证数据，all 模式清理全部站点数据。 */
   clearEmbeddedBrowserData?(mode: "cache" | "all"): Promise<EmbeddedBrowserDataClearResult>;

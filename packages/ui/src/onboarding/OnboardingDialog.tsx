@@ -22,6 +22,7 @@ import {
   type OnboardingWorkspaceCandidate,
 } from "@/onboarding/OnboardingFlowParts.js";
 import { OnboardingAgentsFileStep } from "@/onboarding/OnboardingAgentsFileStep.js";
+import { OnboardingDataRestoreStep } from "@/onboarding/OnboardingDataRestoreStep.js";
 import { useZCodeStore } from "@/store/StoreProvider.js";
 import {
   shouldAutoScanOnboardingSessions,
@@ -41,6 +42,7 @@ const ONBOARDING_STEP_ORDER: OnboardingWizardStep[] = [
   // "plugins-import",
   "commands-import",
   "agents-file",
+  "data-restore",
 
   "migration",
 ];
@@ -431,6 +433,8 @@ export function OnboardingDialog(props: {
         );
       case "agents-file":
         return <OnboardingAgentsFileStep migration={agentsFileMigration} />;
+      case "data-restore":
+        return <OnboardingDataRestoreStep />;
 
       case "migration":
         return finishExecution.finished ? (
